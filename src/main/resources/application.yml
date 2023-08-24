@@ -3,7 +3,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mockdata
     username: root
-    password: ENC(A15/tzjhWRbV/b4CZE2Ae4Csfejwxnai7gyC1i8hCN37Qek0Bn2VC6uEr5iUv0aN)
+    password: ENC(6eusmmKVQSNCbB5jvN6fpZSN2FYx/JgXWVpSDVWQi4hilAzE+eFQ34t4dieBm06l)
+  data:
+    redis:
+      port: 6379
+      host: localhost
   jpa:
     hibernate:
       ddl-auto: update
@@ -25,3 +29,10 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+server:
+  port: 443
+  http: 80
+  ssl:
+    key-store: classpath:ssl/keystore.p12
+    key-store-password: asdf123456789
+    key-store-type: PKCS12
