@@ -1,6 +1,7 @@
 package com.moing.moingbe.global.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.moing.moingbe.global.enums.AllCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -39,6 +40,11 @@ public class BaseResponseDto <T> extends MessageResponseDto{
         }
         public BaseResponseDtoBuilder<T> msg(String msg){
             this.instance.msg = msg;
+            return this;
+        }
+        public BaseResponseDtoBuilder<T> code(AllCode code){
+            this.instance.msg = code.code();
+            this.instance.status = code.status().value();
             return this;
         }
         public BaseResponseDtoBuilder<T> status(Integer status){

@@ -1,7 +1,11 @@
 package com.moing.moingbe.domain.task.repository;
 
 import com.moing.moingbe.domain.task.dao.TaskKanbanDao;
+import com.moing.moingbe.domain.task.entity.Task;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,5 +36,20 @@ public class QTaskRepositoryImpl implements QTaskRepository {
                                 e.get(task.statusEnum)))
                 .toList();
         return result;
+    }
+
+    @Override
+    public Long finalTask(Long workId) {
+        return queryFactory.select(task.taskId).from(task).where(task.workId.eq(workId)).orderBy(task.id.desc()).fetchOne();
+    }
+    @Override
+    public Page<Task> taskList(Long workId, Pageable pageable) {
+        List<Task> taskList = queryFactory.selectFrom(task)
+                .where(task.workId.eq(workId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+        long total = taskList.size();
+        return new PageImpl<>(taskList, pageable, total);
     }
 }

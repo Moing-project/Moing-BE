@@ -1,6 +1,7 @@
 package com.moing.moingbe.global.dto;
 
 import com.moing.moingbe.global.enums.AccessCode;
+import com.moing.moingbe.global.enums.AllCode;
 import com.moing.moingbe.global.enums.DeniedCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -11,13 +12,9 @@ public class MessageResponseDto {
     String msg;
     public MessageResponseDto() {
     }
-    public MessageResponseDto(AccessCode accessCode) {
-        this.msg = accessCode.code();
-        this.status = accessCode.status().value();
-    }
-    public MessageResponseDto(DeniedCode deniedCode) {
-        this.msg = deniedCode.code();
-        this.status = deniedCode.status().value();
+    public MessageResponseDto(AllCode allCode) {
+        this.msg = allCode.code();
+        this.status = allCode.status().value();
     }
     protected MessageResponseDto(Integer status, String msg) {
         this.msg = msg;
@@ -40,11 +37,7 @@ public class MessageResponseDto {
         return new MessageResponseDto(status, msg);
     }
 
-    public static MessageResponseDto out(AccessCode code){
+    public static MessageResponseDto out(AllCode code){
         return new MessageResponseDto(code);
     }
-    public static MessageResponseDto out(DeniedCode code){
-        return new MessageResponseDto(code);
-    }
-
 }

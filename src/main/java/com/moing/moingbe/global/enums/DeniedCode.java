@@ -2,7 +2,7 @@ package com.moing.moingbe.global.enums;
 
 import org.springframework.http.HttpStatus;
 
-public enum DeniedCode {
+public enum DeniedCode implements AllCode{
 
     DO_VALID_ERROR("A02",HttpStatus.BAD_REQUEST),
     EMAIL_CORRECT_ERROR("A03",HttpStatus.CONFLICT),
@@ -24,10 +24,12 @@ public enum DeniedCode {
         this.status = HttpStatus.valueOf(httpStatus);
     }
 
+    @Override
     public String code() {
         return this.errorCode;
     }
 
+    @Override
     public HttpStatus status() {
         return this.status;
     }

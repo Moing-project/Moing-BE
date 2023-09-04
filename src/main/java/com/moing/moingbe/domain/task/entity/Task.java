@@ -17,6 +17,9 @@ public class Task extends Timestamped {
     private Long id;
 
     @Column(nullable = false)
+    private Long taskId;
+
+    @Column(nullable = false)
     private Long workId;
 
     @Column(nullable = false)
@@ -38,8 +41,9 @@ public class Task extends Timestamped {
 
     private LocalDateTime lastTime;
 
-    public Task(TaskCreateRequestDto requestDto) {
-        this(requestDto.getWorkId(),
+    public Task(Long taskId, TaskCreateRequestDto requestDto) {
+        this(taskId,
+                requestDto.getWorkId(),
                 requestDto.getTitle(),
                 requestDto.getDescription(),
                 requestDto.getDisclosure(),
@@ -53,7 +57,8 @@ public class Task extends Timestamped {
 
     }
 
-    public Task(Long workId, String title, String description, boolean disclosure, TaskStatusEnum statusEnum, TaskCategoryEnum categoryEnum, LocalDateTime startTime, LocalDateTime lastTime) {
+    public Task(Long taskId, Long workId, String title, String description, boolean disclosure, TaskStatusEnum statusEnum, TaskCategoryEnum categoryEnum, LocalDateTime startTime, LocalDateTime lastTime) {
+        this.taskId = taskId;
         this.workId = workId;
         this.title = title;
         this.description = description;

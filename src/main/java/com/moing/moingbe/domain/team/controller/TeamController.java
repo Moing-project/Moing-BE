@@ -24,9 +24,12 @@ public class TeamController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<TeamMainResponseDto>> getTeamMain(){
+    public ResponseEntity<List<TeamMainResponseDto>> getTeamMain(
+
+    ){
         return ResponseEntity.ok(teamService.getTeamMain());
     }
+
 
     @GetMapping("/{workId}")
     public ResponseEntity<TeamOneResponseDto> getTeamOne(@PathVariable Long workId){
