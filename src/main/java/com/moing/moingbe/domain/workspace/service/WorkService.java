@@ -111,7 +111,7 @@ public class WorkService {
         return true;
     }
 
-    private List<AuthWorkSoloResponseDto> getWorkUserList(Long workspaceId) {
+    public List<AuthWorkSoloResponseDto> getWorkUserList(Long workspaceId) {
         List<AuthWorkSoloResponseDto> result = new ArrayList<>();
         for (Long userId : workTeamRepository.findAllSelectUserIdByWorkId(workspaceId)) {
             result.add(new AuthWorkSoloResponseDto(authRepository.findByProfileImageAndNicknameById(userId)));

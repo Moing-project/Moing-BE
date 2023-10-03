@@ -1,5 +1,6 @@
 package com.moing.moingbe.domain.workspace.controller;
 
+import com.moing.moingbe.domain.auth.dto.AuthWorkSoloResponseDto;
 import com.moing.moingbe.domain.workspace.dto.WorkCreateRequestDto;
 import com.moing.moingbe.domain.workspace.dto.WorkListResponseDto;
 import com.moing.moingbe.domain.workspace.dto.WorkResponseDto;
@@ -50,7 +51,7 @@ public class WorkController {
     }
 
     @GetMapping("/{workId}/user")
-    public ResponseEntity<?> getWorkspaceUsers(@PathVariable Long workId){
-        return null;
+    public ResponseEntity<List<AuthWorkSoloResponseDto>> getWorkUserList(@PathVariable Long workId){
+        return ResponseEntity.ok(workService.getWorkUserList(workId));
     }
 }

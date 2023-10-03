@@ -18,6 +18,7 @@ public class KanbanController {
         this.kanbanService = kanbanService;
     }
 
+
     public ResponseEntity<BaseResponseDto<?>> getMainKanban(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return ResponseEntity.ok(kanbanService.getMainKanban(userDetails.getUser().getId()));
 
