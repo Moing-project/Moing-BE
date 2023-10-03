@@ -44,7 +44,9 @@ public enum WorkStackEnum {
     }
 
     public static WorkStackEnum get(String str){
+        System.out.println("str = " + str);
         for (WorkStackEnum value : values()) {
+            System.out.println("value.stack = " + value.stack);
             if(value.stack.equalsIgnoreCase(str))
                 return value;
         }

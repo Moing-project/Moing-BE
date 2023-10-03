@@ -17,12 +17,12 @@ import com.moing.moingbe.global.dto.BaseResponseDto;
 import com.moing.moingbe.global.dto.MessageResponseDto;
 import com.moing.moingbe.global.enums.AuthGlobalUserEnum;
 import com.moing.moingbe.global.exception.ErrorCodeException;
-import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.moing.moingbe.global.enums.AccessCode.WORKSPACE_CREATE_ALLOW;
 import static com.moing.moingbe.global.enums.DeniedCode.WORKSPACE_CREATE_ERROR;
@@ -52,12 +52,10 @@ public class WorkService {
 
         newWorkspace = workRepository.save(newWorkspace);
 
-        if (!workspaceAddUser(newWorkspace.getId(), userId)) {
+        if (!workspaceAddUser(newWorkspace.getId(), userId))
             throw ErrorCodeException.make(WORKSPACE_CREATE_ERROR.status(), WORKSPACE_CREATE_ERROR.code());
-        }
-        if (!workspaceAddStacks(newWorkspace.getId(), createDto.stacks())) {
+        if (!workspaceAddStacks(newWorkspace.getId(), createDto.stacks()))
             throw ErrorCodeException.make(WORKSPACE_CREATE_ERROR.status(), WORKSPACE_CREATE_ERROR.code());
-        }
         return MessageResponseDto.out(WORKSPACE_CREATE_ALLOW.status(), WORKSPACE_CREATE_ALLOW.code());
     }
 
@@ -79,7 +77,15 @@ public class WorkService {
     public List<WorkListResponseDto> getWorkspaces(Long userId) {
         List<WorkTeam> works = workTeamRepository.findAllByUserIdOrderByModifiedAtDesc(userId);
         List<WorkMainDao> workspaces = workRepository.findAllByListWorkIdToMainDao(works);
-        return workspaces.stream().map(e-> new WorkListResponseDto(e.id(), e.imageSrc(), e.title(), e.favorite())).toList();
+        List<WorkListResponseDto> result = new ArrayList<>();
+        for (WorkTeam work : works)
+            for (WorkMainDao workspace : workspaces)
+                if (Objects.equals(work.getWorkId(), workspace.id())) {
+                    result.add(new WorkListResponseDto(workspace.id(), workspace.imageSrc(), workspace.title(), work.isFavorite()));
+                    workspaces.remove(workspace);
+                    break;
+                }
+        return result;
     }
 
     public WorkResponseDto getWorkspace(Long workId) {
@@ -95,20 +101,17 @@ public class WorkService {
         return true;
     }
 
-    private boolean workspaceAddStacks(Long workspaceId, List<String> stacks) {
+    private boolean workspaceAddStacks(Long workspaceId, List<WorkStackEnum> stacks) {
         List<WorkStackEnum> workStackEnumList = new ArrayList<>();
-        for (String stack : stacks) {
-            WorkStackEnum workStack = WorkStackEnum.get(stack);
-            if (workStack == null)
-                return false;
-            if (workStackRepository.findByWorkIdAndStack(workspaceId, workStack).isEmpty()) {
-                workStackRepository.save(new WorkStack(workspaceId,workStack));
+        for (WorkStackEnum stack : stacks) {
+            if (workStackRepository.findByWorkIdAndStack(workspaceId, stack).isEmpty()) {
+                workStackRepository.save(new WorkStack(workspaceId, stack));
             }
         }
         return true;
     }
 
-    private List<AuthWorkSoloResponseDto> getWorkUserList(Long workspaceId){
+    private List<AuthWorkSoloResponseDto> getWorkUserList(Long workspaceId) {
         List<AuthWorkSoloResponseDto> result = new ArrayList<>();
         for (Long userId : workTeamRepository.findAllSelectUserIdByWorkId(workspaceId)) {
             result.add(new AuthWorkSoloResponseDto(authRepository.findByProfileImageAndNicknameById(userId)));
@@ -116,7 +119,7 @@ public class WorkService {
         return result;
     }
 
-    private WorkListResponseDto getListResponseDto(Workspace workspace, boolean favorite){
+    private WorkListResponseDto getListResponseDto(Workspace workspace, boolean favorite) {
         return new WorkListResponseDto(workspace.getId(),
                 workspace.getImageSrc(),
                 workspace.getTitle(),

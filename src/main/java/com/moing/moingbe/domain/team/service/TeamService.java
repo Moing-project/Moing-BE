@@ -37,8 +37,7 @@ public class TeamService {
         List<Workspace> workspaceList = workRepository.findAllOrderByAllowTypeToSort();
         List<TeamMainResponseDto> responseDtoList = new ArrayList<>();
         for (Workspace workspace : workspaceList) {
-            List<String> stacks = workStackRepository.findAllByWorkIdToStack(workspace.getId()).stream().map(WorkStackEnum::getStack).toList();
-            responseDtoList.add(new TeamMainResponseDto(workspace.getImageSrc(), workspace.getTitle(),stacks,workspace.getIntroduce(),workspace.getLastTime()));
+            responseDtoList.add(new TeamMainResponseDto(workspace.getId(), workspace.getImageSrc(), workspace.getTitle(),workStackRepository.findAllByWorkIdToStack(workspace.getId()),workspace.getAllowType(), workspace.getIntroduce(),workspace.getLastTime()));
         }
         return responseDtoList;
     }

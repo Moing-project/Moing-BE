@@ -53,13 +53,17 @@ public class Workspace extends Timestamped {
 
     public Workspace(WorkCreateRequestDto createDto, Integer totalMember) {
         this.title = createDto.title();
-        this.subject = WorkSubjectEnum.get(createDto.subject());
+        this.subject = createDto.subject();
         this.totalMember = totalMember;
         this.introduce = createDto.introduce();
         this.imageSrc = createDto.imageSrc();
-        String[] date = createDto.date().split("\\.");
-        this.lastTime = LocalDateTime.of(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2])-1, 23,59);
-        this.allowType = WorkAllowEnum.get(createDto.allowType());
+        if(createDto.date() == null)
+            this.lastTime = null;
+        else{
+            String[] date = createDto.date().split("-");
+            this.lastTime = LocalDateTime.of(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2])-1, 23,59);
+        }
+        this.allowType = createDto.allowType();
         this.needMember = createDto.needMember();
     }
 }

@@ -37,11 +37,6 @@ public class SwaggerAPIConfig {
                 .build();
     }
 
-//    public OpenApiCustomizer swaggerWorkCreateRequestDtoCustomizer(){
-//        return openApi -> {
-//
-//        }
-//    }
     @Bean
     public OpenApiCustomizer springSecurityLoginEndpointCustomizer() {
         FilterChainProxy filterChainProxy = applicationContext.getBean(

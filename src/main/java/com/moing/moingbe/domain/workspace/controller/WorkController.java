@@ -6,7 +6,6 @@ import com.moing.moingbe.domain.workspace.dto.WorkResponseDto;
 import com.moing.moingbe.domain.workspace.entity.Workspace;
 import com.moing.moingbe.domain.workspace.service.WorkService;
 import com.moing.moingbe.global.dto.BaseResponseDto;
-import com.moing.moingbe.global.dto.MessageResponseDto;
 import com.moing.moingbe.global.sercurity.UserDetailsImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
