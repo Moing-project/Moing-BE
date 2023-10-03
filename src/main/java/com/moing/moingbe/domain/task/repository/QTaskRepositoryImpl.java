@@ -19,7 +19,7 @@ public class QTaskRepositoryImpl implements QTaskRepository {
 
     @Override
     public List<TaskKanbanDao> getListTaskKanban(List<Long> taskList) {
-        List<TaskKanbanDao> result = queryFactory.select(task.id, task.title, task.description, task.kanbanType)
+        List<TaskKanbanDao> result = queryFactory.select(task.id, task.title, task.description, task.statusEnum)
                 .from(task)
                 .where(task.id.in(taskList))
                 .orderBy(task.id.asc())
@@ -29,7 +29,7 @@ public class QTaskRepositoryImpl implements QTaskRepository {
                                 e.get(task.id),
                                 e.get(task.title),
                                 e.get(task.description),
-                                e.get(task.kanbanType)))
+                                e.get(task.statusEnum)))
                 .toList();
         return result;
     }

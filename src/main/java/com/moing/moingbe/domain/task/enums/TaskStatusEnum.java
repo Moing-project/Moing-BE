@@ -1,6 +1,6 @@
 package com.moing.moingbe.domain.task.enums;
 
-public enum TaskKanbanEnum {
+public enum TaskStatusEnum {
     NO_START,
     IN_PROGRESS,
     DONE,

@@ -48,4 +48,9 @@ public class WorkController {
     public ResponseEntity<WorkResponseDto> getWorkspace(@PathVariable Long workId){
         return ResponseEntity.ok(workService.getWorkspace(workId));
     }
+
+    @GetMapping("/{workId}/user")
+    public ResponseEntity<?> getWorkspaceUsers(@PathVariable Long workId){
+        return null;
+    }
 }
